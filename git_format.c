@@ -1,134 +1,54 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 /**
- * print_char - print single char
- * @ap: arg list
- * Return: number of printed char
+ * _printf - Function that prints formatted output.
+ *
+ * @format: a string composed of zero or more characters to print or use as
+ * directives that handle subsequent arguments and special characters.
+ *
+ * Description: This function can take a variable number and type of arguments
+ * that should be printed to standard output.
+ *
+ * Return: int
  */
-
-int print_char(va_list ap)
+int _printf(const char *format, ...)
 {
-	char c = va_arg(ap, int);
+	va_list args;
+	int i = 0, chars_printed = 0;
 
-	if (c == '\0')
+	va_start(args, format);
+	while (format && format[i])
 	{
-		return (write(1, &c, 1));
+		if (format[i] != '%')
+		{
+			chars_printed += _putchar(format[i]);
+		}
+		else if (format[i + 1])
+		{
+			i++;
+			if (format[i] == 'c' || format[i] == 's')
+				chars_printed += format[i] == 'c' ? _putchar(va_arg(args, int)) :
+				print_string(va_arg(args, char *));
+			else if (format[i] == 'd' || format[i] == 'i')
+				chars_printed += print_num(va_arg(args, int));
+			else if (format[i] == 'b')
+				chars_printed += print_binary((unsigned int)va_arg(args, int));
+			else if (format[i] == 'r')
+				chars_printed += print_reverse(va_arg(args, char *));
+			else if (format[i] == 'R')
+				chars_printed += print_rot13(va_arg(args, char *));
+			else if (format[i] == 'o' || format[i] == 'u' ||
+			format[i] == 'x' || format[i] == 'X')
+				chars_printed += print_odh(format[i], (unsigned int)va_arg(args, int));
+			else if (format[i] == 'S')
+				chars_printed += print_S(va_arg(args, char *));
+			else if (format[i] == 'p')
+				chars_printed += print_pointer(va_arg(args, void *));
+			else
+				chars_printed += print_unknown_spec(format[i]);
+		}
+		i++;
 	}
-	_putchar(c);
-	return (1);
-}
-
-/**
- * print_str - print string
- * @ap: arg list
- * Return: number of printed char
- */
-
-int print_str(va_list ap)
-{
-	char *argument = va_arg(ap, char *);
-	int sum = 0;
-
-	if (!argument)
-	{
-		sum += _puts("(null)", 0);
-		return (sum);
-	}
-
-	return (_puts(argument, 0));
-}
-
-/**
- * print_str_unprintable - unprint some characters
- * @ap: arg list
- * Return: number of printed char
- */
-
-int print_str_unprintable(va_list ap)
-{
-	char *argument = va_arg(ap, char *);
-	int sum = 0;
-
-	if (!argument)
-	{
-		sum += _puts("(null)", 0);
-		return (sum);
-	}
-
-	return (_puts(argument, 1));
-}
-
-/**
- * print_str_reverse - reverse a string
- * @ap: arg list
- * Return: number printed char
- */
-int print_str_reverse(va_list ap)
-{
-	char *argument = va_arg(ap, char *), *str;
-	int size, left, limit, right, sum = 0;
-
-	if (!argument)
-	{
-		sum += _puts("%r", 0);
-		return (sum);
-	}
-
-	size = _strlen_recursion(argument);
-	right = size - 1;
-	limit = (size % 2 == 0) ? (size + 1) / 2 : (size / 2);
-
-	str = malloc(sizeof(char) * size + 1);
-
-	if (str == NULL)
-	{
-		return (0);
-	}
-
-	if (size % 2 != 0)
-	{
-		str[limit] = argument[limit];
-	}
-
-	for (left = 0; left < limit; left++)
-	{
-		str[left] = argument[right];
-		str[right] = argument[left];
-		right--;
-	}
-
-	str[size] = '\0';
-
-	sum = _puts(str, 0);
-	free(str);
-
-	return (sum);
-}
-
-/**
- * print_rot13 - print string with rot13
- * @ap: arg list
- * Return: number of printed char
- */
-
-int print_rot13(va_list ap)
-{
-	int sum = 0;
-	char *str, *argument = va_arg(ap, char*);
-
-	if (!argument)
-	{
-		sum += _puts("%R", 0);
-		return (sum);
-	}
-
-	str = convert_rot13(argument);
-	if (!str)
-		return (0);
-	sum = _puts(str, 0);
-	free(str);
-	return (sum);
+	va_end(args);
+	return (chars_printed);
 }
