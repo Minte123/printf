@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * printf_HEX - prints an hexgecimal number.
+ * printf_oct - prints an octal number.
  * @val: arguments.
  * Return: counter.
  */
-int printf_HEX(va_list val)
+int printf_oct(va_list val)
 {
 	int i;
 	int *array;
@@ -13,9 +13,9 @@ int printf_HEX(va_list val)
 	unsigned int num = va_arg(val, unsigned int);
 	unsigned int temp = num;
 
-	while (num / 16 != 0)
+	while (num / 8 != 0)
 	{
-		num /= 16;
+		num /= 8;
 		counter++;
 	}
 	counter++;
@@ -23,13 +23,11 @@ int printf_HEX(va_list val)
 
 	for (i = 0; i < counter; i++)
 	{
-		array[i] = temp % 16;
-		temp /= 16;
+		array[i] = temp % 8;
+		temp /= 8;
 	}
 	for (i = counter - 1; i >= 0; i--)
 	{
-		if (array[i] > 9)
-			array[i] = array[i] + 7;
 		_putchar(array[i] + '0');
 	}
 	free(array);
