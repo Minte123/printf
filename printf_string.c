@@ -1,29 +1,20 @@
 #include "main.h"
 /**
- * printf_string - print a string.
- * @val: argumen t.
- * Return: the length of the string.
+ *print_string - prints string followed by a new line.
+ *@str: - pointer to char.
+ *
+ *Return: - returns int.
  */
-
-int printf_string(va_list val)
+int print_string(char *str)
 {
-	char *s;
-	int i, len;
+	int chars_printed = 0;
 
-	s = va_arg(val, char *);
-	if (s == NULL)
+	if (str == (char *)0)
+		return (print_string("(null)"));
+	while (str && str[chars_printed])
 	{
-		s = "(null)";
-		len = _strlen(s);
-		for (i = 0; i < len; i++)
-			_putchar(s[i]);
-		return (len);
+		_putchar(str[chars_printed]);
+		chars_printed++;
 	}
-	else
-	{
-		len = _strlen(s);
-		for (i = 0; i < len; i++)
-			_putchar(s[i]);
-		return (len);
-	}
+	return (chars_printed);
 }
