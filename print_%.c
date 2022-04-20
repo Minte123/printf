@@ -10,11 +10,7 @@ int print_spec(char c)
 {
     int chars_printed = 0;
 
-    if (c == '%')
-    {
-        chars_printed += _putchar('%');
-    }
-    else
+    if
     {
         chars_printed += _putchar('%');
         chars_printed += _putchar(c);
