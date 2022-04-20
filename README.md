@@ -239,5 +239,5 @@ All the above options work well together.
 
 ### Authors &copy;
 
-- Jimmer Hernandez
-- Edward Ortiz
+- Mintesnot Bekele
+- Henok Shewakena
