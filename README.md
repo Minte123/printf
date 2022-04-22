@@ -22,6 +22,4 @@ A re-creation of the printf function in C!
 
 ## Team
 
-*Okoli Ekene* - [Github](https://github.com/khennyyb) || [Twitter](https://twitter.com/khennyyofficial)
-
-*Nkiruka Ebele* - [Github](https://github.com/nkirukka) 
+*Mintesnot Bekele and *Henok Shewakena 
